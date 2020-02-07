@@ -19,6 +19,12 @@ public class SkillController {
     @Autowired
     private SkillRepository skillRepository;
 
+    @RequestMapping("")
+    public String displayAllEmployers(Model model) {
+        model.addAttribute("employers", skillRepository.findAll());
+        return "employers/index";
+    }
+
     @GetMapping("add")
     public String displayAddSkillForm(Model model){
         model.addAttribute(new Skill());
@@ -26,7 +32,7 @@ public class SkillController {
     }
 
     @PostMapping("add")
-    public String processAddEmploymentForm(@ModelAttribute @Valid Skill newSkill, Errors errors,
+    public String processAddSkillForm(@ModelAttribute @Valid Skill newSkill, Errors errors,
                                            Model model) {
         if (errors.hasErrors()) {
             return "skills/add";
@@ -37,7 +43,7 @@ public class SkillController {
     }
 
     @GetMapping("view/{employerId}")
-    public String displayViewEmployer(Model model, @PathVariable int skillId) {
+    public String displayViewSkills(Model model, @PathVariable int skillId) {
 
         Optional optSkill = skillRepository.findById(skillId);
         if (optSkill.isPresent()) {
